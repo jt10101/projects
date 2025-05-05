@@ -1,13 +1,18 @@
-const gameCardsDetails = require("./data.js");
+const gameCardsDetails = require("../data.js");
 const gameCards = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
   22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-  41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
 ];
-
-// const playerCards = []; // this is the player's hand
+const playerCards = []; // this is the player's hand
 const dealerCards = []; // this is the dealer's hand
-
+const gameDeckShuffle = () => {
+  // This function shuffles the deck of cards
+  function shuffle(array) {
+    array.sort(() => Math.random() - 0.5); // https://javascript.info/task/shuffle
+  }
+  shuffle(gameCards);
+};
 const dealCards = () => {
   gameDeckShuffle();
   for (let i = 0; i < 2; i++) {
@@ -64,7 +69,7 @@ while (playerTurn) {
     }
   } else {
     console.log(
-      `Hand value ${playerValue} is over 21, cannot draw anymore cards!`
+      `Hand value ${playerValue} is 21 or more, cannot draw anymore cards!`
     );
     playerTurn = false;
   }
@@ -79,8 +84,8 @@ while (dealerTurn) {
     dealerValue < 16
   ) {
     dealerCards.unshift(gameCards[0]);
-    gameCards.splice(0, 1);
     dealerValue = gameCardsDetails[dealerCards[0]].value + dealerValue;
+    gameCards.splice(0, 1);
   } else if (dealerValue >= 16 && dealerDecision === 0) {
     dealerTurn = false;
   }

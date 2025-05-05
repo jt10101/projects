@@ -1,11 +1,10 @@
 const gameCardsDetails = require("./data.js");
-const gameCards = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-  41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-];
-const playerCards = []; // this is the player's hand
-const dealerCards = []; // this is the dealer's hand
+const gameCards = require("./data.js");
+const playerCards = [];
+const playerValue = [];
+let playerCount = 0;
+
+/* First we shuffle the deck */
 const gameDeckShuffle = () => {
   // This function shuffles the deck of cards
   function shuffle(array) {
@@ -13,105 +12,25 @@ const gameDeckShuffle = () => {
   }
   shuffle(gameCards);
 };
+
+/* Get the number of players + deal cards */
 const dealCards = () => {
   gameDeckShuffle();
-  for (let i = 0; i < 2; i++) {
-    playerCards.push(gameCards[0]);
-    dealerCards.push(gameCards[1]);
-    gameCards.splice(0, 2);
+  let playerCount = Number(prompt("How many players? Max 4 : "));
+  for (let i = 0; i < playerCount; i++) {
+    let draw = {
+      name: "player" + [i + 1],
+      cards: [gameCards[i], gameCards[playerCount + i + 1]],
+    };
+    playerCards.push(draw);
   }
-};
-const randomInt = (max) => {
-  return Math.floor(Math.random() * max);
-};
-const dealerAI = () => {
-  let x = 0;
-  x = randomInt(2);
-  return x;
-};
-const playerValueCalc = () => {
-  for (let i = 0; i < playerCards.length; i++) {
-    playerValue = gameCardsDetails[playerCards[i]].value + playerValue;
-  }
-  return playerValue;
-};
-const dealerValueCalc = () => {
-  for (let i = 0; i < dealerCards.length; i++) {
-    dealerValue = gameCardsDetails[dealerCards[i]].value + dealerValue;
-  }
-  return dealerValue;
+  playerCards.push({
+    name: "dealer",
+    cards: [gameCards[playerCount], gameCards[playerCount * 2 + 1]],
+  });
+  gameCards.splice(0, (playerCount + 1) * 2);
+  return playerCount;
 };
 
-/* Start of Game*/
-let playerValue = 0;
-let dealerValue = 0;
-let playerHand = {};
-let DealerHand = {};
 dealCards();
-playerValueCalc();
-dealerValueCalc();
-
-playerTurn = true;
-while (playerTurn) {
-  if (playerValue < 21) {
-    let playerDecision = prompt(
-      `Hand Value: ${playerValue} | [H]it or [S]tand: ?`
-    );
-    if (playerDecision === "H") {
-      playerCards.unshift(gameCards[0]);
-      gameCards.splice(0, 1);
-      playerValue = gameCardsDetails[playerCards[0]].value + playerValue;
-    } else if (playerDecision === "S") {
-      console.log(`Stand Position`);
-      playerTurn = false;
-    } else {
-      console.log(`Invalid input.`);
-    }
-  } else {
-    console.log(
-      `Hand value ${playerValue} is over 21, cannot draw anymore cards!`
-    );
-    playerTurn = false;
-  }
-}
-
-dealerTurn = true;
-while (dealerTurn) {
-  dealerAI();
-  dealerDecision = dealerAI();
-  if (
-    (dealerValue >= 16 && dealerValue < 21 && dealerDecision === 1) ||
-    dealerValue < 16
-  ) {
-    dealerCards.unshift(gameCards[0]);
-    gameCards.splice(0, 1);
-    dealerValue = gameCardsDetails[dealerCards[0]].value + dealerValue;
-  } else if (dealerValue >= 16 && dealerDecision === 0) {
-    dealerTurn = false;
-  }
-}
-
-let playerBust = false;
-if (playerValue > 21) {
-  playerBust = true;
-}
-let dealerBust = false;
-if (dealerValue > 21) {
-  dealerBust = true;
-}
-
-if (playerBust === false && dealerBust === false) {
-  if (playerValue < dealerValue) {
-    console.log(`You lose! Player: ${playerValue} | Dealer: ${dealerValue}`);
-  } else if (playerValue > dealerValue) {
-    console.log(`You win! Player: ${playerValue} | Dealer: ${dealerValue}`);
-  } else if (playerValue === dealerValue) {
-    console.log(`Draw! Player: ${playerValue} | Dealer: ${dealerValue}`);
-  }
-} else if (playerBust === false && dealerBust) {
-  console.log(`You win! Player: ${playerValue} | Dealer: ${dealerValue}`);
-} else if (playerBust && dealerBust === false) {
-  console.log(`You lose! Player: ${playerValue} | Dealer: ${dealerValue}`);
-} else if (playerBust && dealerBust) {
-  console.log(`Draw! Player: ${playerValue} | Dealer: ${dealerValue}`);
-}
+console.log(playerCards);
