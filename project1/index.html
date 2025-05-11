@@ -42,32 +42,32 @@
 
         <div class="cardarea">
           <div class="cards" id="d-cards">
-            <div class="cardstyle">1♠</div>
-            <div class="cardstyle">2♦</div>
-            <div class="cardstyle">3♣</div>
-            <div class="cardstyle">4♥</div>
-            <div class="cardstyle">5♠</div>
+            <div class="cardback" id="d-1"></div>
+            <div class="cardback" id="d-2"></div>
+            <div class="cardempty" id="d-3"></div>
+            <div class="cardempty" id="d-4"></div>
+            <div class="cardempty" id="d-5"></div>
           </div>
           <div class="cards" id="p1-cards">
-            <div class="cardstyle">1♠</div>
-            <div class="cardstyle">2♦</div>
-            <div class="cardstyle">3♣</div>
-            <div class="cardstyle">4♥</div>
-            <div class="cardstyle">5♠</div>
+            <div class="cardback" id="1-1"></div>
+            <div class="cardback" id="1-2"></div>
+            <div class="cardempty" id="1-3"></div>
+            <div class="cardempty" id="1-4"></div>
+            <div class="cardempty" id="1-5"></div>
           </div>
           <div class="cards" id="p2-cards">
-            <div class="cardstyle">1♠</div>
-            <div class="cardstyle">2♦</div>
-            <div class="cardstyle">3♣</div>
-            <div class="cardstyle">4♥</div>
-            <div class="cardstyle">5♠</div>
+            <div class="cardback"></div>
+            <div class="cardback"></div>
+            <div class="cardempty"></div>
+            <div class="cardempty"></div>
+            <div class="cardempty"></div>
           </div>
           <div class="cards" id="p3-cards">
-            <div class="card-back">?</div>
-            <div class="card-back">?</div>
-            <!-- <div class="cardstyle">3♣</div>
-            <div class="cardstyle">4♥</div>
-            <div class="cardstyle">5♠</div> -->
+            <div class="cardback"></div>
+            <div class="cardback"></div>
+            <div class="cardempty"></div>
+            <div class="cardempty"></div>
+            <div class="cardempty"></div>
           </div>
         </div>
 
@@ -83,13 +83,13 @@
               <div class="d-zone">
                 <!-- Player 1 Decision Zone -->
                 <div class="bet-area">
-                  <input type="textarea" class="bet" />
-                  <button class="submitbet">Bet</button>
+                  <input type="textarea" id="bet-amount" />
+                  <button class="submitbet" id="bet">Bet</button>
                 </div>
                 <br />
                 <div>
-                  <button class="decision" id="hit">HIT</button>
-                  <button class="decision" id="stand">STAND</button>
+                  <button class="decision" id="hit" disabled>HIT</button>
+                  <button class="decision" id="stand" disabled>STAND</button>
                 </div>
               </div>
               <div class="d-zone">area 2</div>

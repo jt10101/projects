@@ -111,7 +111,7 @@ body {
   flex-direction: column;
 }
 
-.bet {
+#bet-amount {
   height: 30px;
   width: 100px;
 }
@@ -132,7 +132,7 @@ body {
   background-color: lightcoral;
 }
 
-.cardstyle {
+.cardface {
   width: 60px;
   height: 90px;
   background-color: #fff;
@@ -145,7 +145,7 @@ body {
   font-weight: bold;
 }
 
-.card-back {
+.cardback {
   width: 60px; /* Adjust as needed */
   height: 90px; /* Adjust as needed */
   background-color: #333; /* A dark background color */
@@ -157,4 +157,14 @@ body {
   font-size: 1.5em;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+/* we use this card class to put in an empty card */
+.cardempty {
+  width: 60px;
+  height: 90px;
+  background-color: #36654d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
