@@ -132,17 +132,16 @@ const betActions = () => {
 
 const hitActions = () => {
   let activeplayer = `player${game.turn}`;
+  game.cards[activeplayer].push(deck[0]);
+  deck.splice(0, 1);
+  render();
+  calcValue();
   if (
     game.cardValue[activeplayer] >= 21 ||
     game.cards[activeplayer].length > 4
   ) {
     hitButtonElement.setAttribute("disabled", "");
-  } else {
-    game.cards[activeplayer].push(deck[0]);
-    deck.splice(0, 1);
-    render();
   }
-  calcValue();
 };
 
 const standActions = () => {
@@ -152,16 +151,28 @@ const standActions = () => {
   hitButtonElement.setAttribute("disabled", "");
   standButtonElement.setAttribute("disabled", "");
 };
-
+// render cards
 const render = () => {
   let activeplayer = `player${game.turn}`;
   for (let i = 0; i < game.cards[activeplayer].length; i++) {
+    //render player cards
     const playerCards = document.getElementById(`${game.turn}-${i + 1}`);
     let printCard = game.cards[activeplayer][i];
     let colorCard = gameCardsDetails[printCard].color;
-    playerCards.innerText = gameCardsDetails[printCard].display;
-    // playerCards.setAttribute("class", "cardface");
+    playerCards.textContent = gameCardsDetails[printCard].display;
     playerCards.setAttribute("class", `cardface ${colorCard}`);
+
+    //render bet amount on each player's detail frame
+    const playerBet = document.getElementById(`bet-${game.turn}`);
+    playerBet.textContent = `Bet Amount: $ ${game.betAmount[activeplayer]}`;
+  }
+};
+
+// render messages
+const renderMsg = () => {
+  if (game.turn < 4) {
+    const playerTurnMessage = document.querySelector("p");
+    playerTurnMessage.textContent = `Player ${game.turn} Turn!`;
   }
 };
 // calculates hand value of active player (not including dealer)
@@ -174,7 +185,37 @@ const calcValue = () => {
   }
   game.cardValue[x] = handtotal;
 };
+// all dealer actions are here:
+const dealerValue = () => {
+  let handtotal = 0;
+  let x;
+  for (let i = 0; i < game.cards.dealer.length; i++) {
+    handtotal += gameCardsDetails[game.cards.dealer[i]].value;
+  }
+  game.cardValue.dealer = handtotal;
+};
 
+const dealerRender = () => {
+  for (let i = 0; i < game.cards.dealer.length; i++) {
+    //render dealer cards
+    const dealerCards = document.getElementById(`d-${i + 1}`);
+    let printCard = game.cards.dealer[i];
+    let colorCard = gameCardsDetails[printCard].color;
+    dealerCards.textContent = gameCardsDetails[printCard].display;
+    dealerCards.setAttribute("class", `cardface ${colorCard}`);
+  }
+};
+
+const dealerActions = () => {
+  while (game.cardValue.dealer <= 15 && game.dealerturn === true) {
+    game.cards.dealer.push(deck[0]);
+    deck.splice(0, 1);
+    dealerValue();
+  }
+  dealerRender();
+  game.dealerturn = false;
+  game.settlement = true;
+};
 // Main function here
 const main = () => {
   //init function that shuffles and deals cards
@@ -182,8 +223,12 @@ const main = () => {
   betButtonElement.addEventListener("click", betActions);
   hitButtonElement.addEventListener("click", hitActions);
   standButtonElement.addEventListener("click", standActions);
-  console.log(game);
+
+  if (game.dealerturn) {
+    dealerActions();
+  }
+  if (game.settlement === true) {
+    settlement();
+  }
 };
 main();
-
-//actions to take when a player Hits
