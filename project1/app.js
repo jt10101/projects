@@ -114,7 +114,6 @@ const init = () => {
   // console.log(game.cards); // checks current state of each player's hand
   // console.log(deck); // check for deck state after init
 };
-// I AM WORKING ON betting NEXT, WHAT HAPPENS WHEN ITS PLAYER ONE'S TURN
 const playeractions = () => {
   let activeplayer = `player${game.turn}`;
   if (
@@ -131,15 +130,13 @@ const playeractions = () => {
     hitButtonElement.removeAttribute("disabled", "");
     standButtonElement.removeAttribute("disabled", "");
     renderFirstTwo();
-    // console.log(game.cardValue[0].values);
-    console.log(Object.value(game.cards[0]));
+    calcValue();
   }
 };
 // // Check for return value of this function (bet, stand or hit)
 const handleclick = (event) => {
   return event.target.id;
 };
-
 // renders first 2 cards when bets are placed
 const renderFirstTwo = () => {
   for (let i = 0; i < 2; i++) {
@@ -151,15 +148,17 @@ const renderFirstTwo = () => {
   }
 };
 
-// // // calculates hand value of PLAYERS only
-// // const calcValue = () => {
-// //   for (let i = 0; i < 2; i++) {
-// //     let x;
-// //     x = `player${game.turn}`
-// //     for (let i =0; i < game.)
-
-// //   }
-// };
+// calculates hand value of active player (not including dealer)
+const calcValue = () => {
+  let handtotal = 0;
+  let x;
+  x = `player${game.turn}`;
+  for (let i = 0; i < game.cards[x].length; i++) {
+    handtotal += gameCardsDetails[game.cards[x][i]].value;
+  }
+  game.cardValue[x] = handtotal;
+  console.log(game);
+};
 
 // Main function here
 const main = () => {
