@@ -150,7 +150,9 @@ const standActions = () => {
   betButtonElement.removeAttribute("disabled", "");
   hitButtonElement.setAttribute("disabled", "");
   standButtonElement.setAttribute("disabled", "");
+  renderMsg();
 };
+
 // render cards
 const render = () => {
   let activeplayer = `player${game.turn}`;
